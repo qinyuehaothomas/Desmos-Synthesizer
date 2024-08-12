@@ -4,8 +4,8 @@ def current_folder(file_name):
     d = path.dirname(__file__) if "__file__" in locals() else os.getcwd()
     return path.join(d, file_name)
 
-FILE_NAME="SaxA4.txt"
-PEAK_COUNT=40 # how many "sine" function you want
+FILE_NAME="GuitarNylonA4.txt"
+PEAK_COUNT=50 # how many "sine" function you want
 with open(current_folder(FILE_NAME),"r") as f:
     data=[i[:-1].split("\t") for i in f.readlines()][1:]
 
