@@ -4,8 +4,8 @@ def current_folder(file_name):
     d = path.dirname(__file__) if "__file__" in locals() else os.getcwd()
     return path.join(d, file_name)
 
-FILE_NAME="ViolinA4.txt"
-PEAK_COUNT=10 # how many "sine" function you want
+FILE_NAME="SaxA4.txt"
+PEAK_COUNT=40 # how many "sine" function you want
 with open(current_folder(FILE_NAME),"r") as f:
     data=[i[:-1].split("\t") for i in f.readlines()][1:]
 
@@ -14,12 +14,14 @@ peak=[]
 
 # actually threshold should be exponetial...
 # peak-finding!!!!!!!!!!
-THRESHOLD=20
-for i in range(10,len(L)-THRESHOLD):
-    if( L[i][1]> L[i-THRESHOLD][1] and  L[i][1]> L[i+THRESHOLD][1] ):
-        peak.append(L[i]+[L[i][1]-L[i-THRESHOLD][1]])
+THRESHOLD=50
+for i in range(THRESHOLD,len(L)-THRESHOLD):
+    if( L[i][1]> L[i-1][1] and  L[i][1]> L[i+1][1] ):
+        avg=sum([L[i+j][1] for j in range(int(-THRESHOLD/2),int(THRESHOLD/2))])/THRESHOLD
+        if(L[i][1]-avg>10):
+            peak.append(L[i])
 
-peak.sort(key= lambda x:x[2],reverse=True)
+peak.sort(key= lambda x:x[1],reverse=True)
 MAX_DB=peak[0][1]
 MIN_DB=peak[-1][1]
 peak=peak[:min(len(peak)-1,PEAK_COUNT)]
